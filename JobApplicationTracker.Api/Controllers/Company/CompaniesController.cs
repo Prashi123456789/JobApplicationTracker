@@ -13,7 +13,7 @@ namespace JobApplicationTracker.Api.Controllers.Authentication
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    [Route("api/companies")]
+    
     public class CompaniesController(ICompaniesRepository companyService, IRegistrationService registrationService) : ControllerBase
     {
 

@@ -9,7 +9,7 @@ namespace JobApplicationTracker.Api.Controllers.Authentication
     [ApiController]
     [Route("api/[controller]")]
 
-    [Route("api/AdminLogs")]
+    
     public class AdminLogsController(IAdminLogsRepository adminLogRepository) : ControllerBase
     {
         [HttpGet]

@@ -3,12 +3,14 @@ using JobApplicationTracker.Data.Dto.Responses;
 using JobApplicationTracker.Data.Interface;
 using JobApplicationTracker.Service.DTO.Requests;
 using JobApplicationTracker.Service.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobApplicationTracker.Api.Controllers.User;
 
+[Authorize]
 [ApiController]
-[Route("api/users")]
+[Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
@@ -32,6 +34,7 @@ public class UsersController : ControllerBase
         var users = await _userRepository.GetAllUsersAsync(companyId);
         return Ok(users);
     }
+
 
     [HttpGet("getusersbyid")]
     public async Task<IActionResult> GetUserById([FromQuery] int id)

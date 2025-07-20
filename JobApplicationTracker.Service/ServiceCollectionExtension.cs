@@ -1,7 +1,9 @@
-﻿using JobApplicationTracker.Data.Config;
-using JobApplicationTracker.Data.Repository;
+﻿using JobApplicationTracke.Data.Database;
+using JobApplicationTracker.Data.Config;
 using JobApplicationTracker.Data.Interface;
-using JobApplicationTracke.Data.Database;
+using JobApplicationTracker.Data.Repository;
+using JobApplicationTracker.Service.Services.Interfaces;
+using JobApplicationTracker.Service.Services.Service;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,8 +16,8 @@ namespace JobApplicationTracker.Service
             services.Configure<DatabaseConfig>(configuration.GetSection("DatabaseConfig"));
 
             services.AddScoped<ICompaniesRepository, CompaniesRepository>();
-            // services.AddScoped<IIndustriesRepository, IndustriesRepository>();
-            // services.AddScoped<IAdminActionRepository, AdminActionService>();
+            //services.AddScoped<INotificationsRepository, NotificationsRepository>();
+            //services.AddScoped<IAdminActionRepository, AdminActionService>();
             services.AddScoped<IJobApplicationRepository, ApplicationsRepository>();
             services.AddScoped<IJobSeekerExperienceRepository, JobSeekerExperienceRepository>();
             services.AddScoped<IJobSeekersRepository, JobSeekerRepository>();

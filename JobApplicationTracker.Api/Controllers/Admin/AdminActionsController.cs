@@ -10,7 +10,7 @@ namespace JobApplicationTracker.Api.Controllers.Authentication
     [Route("api/[controller]")]
 
 
-    [Route("api/AdminActions")]
+    
     public class AdminActionsController(IAdminActionRepository adminActionService) : ControllerBase
     {
         [HttpGet]

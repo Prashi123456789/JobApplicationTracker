@@ -10,7 +10,7 @@ namespace JobApplicationTracker.Api.Controllers.JobApplication
     [ApiController]
     [Route("api/[controller]")]
 
-    [Route("api/skills")]
+    
     public class SkillsController(ISkillsRepository skillService) : ControllerBase
     {
         [HttpGet]

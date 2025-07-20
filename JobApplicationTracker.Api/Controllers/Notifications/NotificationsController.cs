@@ -10,7 +10,7 @@ namespace JobApplicationTracker.Api.Controllers.JobApplication
     [ApiController]
     [Route("api/[controller]")]
 
-    [Route("api/notifications")]
+   
     public class NotificationsController(INotificationsRepository notificationsService) : ControllerBase
     {
         [HttpGet]

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using JobApplicationTracker.Api.Enums;
 using JobApplicationTracker.Data.DataModels;
+using JobApplicationTracker.Data.Dto;
 using JobApplicationTracker.Data.Dto.AuthDto;
 using JobApplicationTracker.Data.Dto.Responses;
 using JobApplicationTracker.Data.Dtos.Responses;
@@ -11,7 +12,7 @@ namespace JobApplicationTracker.Data.Repository;
 
 public class UsersRepository(IDatabaseConnectionService connectionService) : IUserRepository
 {
-    public async Task<IEnumerable<UsersDtoResponse>> GetAllUsersAsync(int companyId)
+    public async Task<IEnumerable<UsersDto>> GetAllUsersAsync(int companyId)
     {
         await using var connection = await connectionService.GetDatabaseConnectionAsync();
 
@@ -26,10 +27,10 @@ public class UsersRepository(IDatabaseConnectionService connectionService) : IUs
                   """;
         var parameters = new DynamicParameters();
         parameters.Add("@companyId", companyId, DbType.Int32); // ✅ FIXED
-        return await connection.QueryAsync<UsersDtoResponse>(sql, parameters).ConfigureAwait(false);
+        return await connection.QueryAsync<UsersDto>(sql, parameters).ConfigureAwait(false);
     }
 
-    public async Task<UserProfileDto?> GetUserProfileAsync(int userId)
+    public async Task<UserProfileDto> GetUserProfileAsync(int userId)
     {
         await using var connection = await connectionService.GetDatabaseConnectionAsync();
 
@@ -96,7 +97,7 @@ public class UsersRepository(IDatabaseConnectionService connectionService) : IUs
         return profile;
     }
 
-    public async Task<UsersDtoResponse?> GetUsersByIdAsync(int usersId)
+    public async Task<UsersDto> GetUsersByIdAsync(int usersId)
     {
         await using var connection = await connectionService.GetDatabaseConnectionAsync();
 
@@ -114,7 +115,7 @@ public class UsersRepository(IDatabaseConnectionService connectionService) : IUs
         var parameters = new DynamicParameters();
         parameters.Add("@UserId", usersId, DbType.Int32); // ✅ FIXED
 
-        return await connection.QueryFirstOrDefaultAsync<UsersDtoResponse>(sql, parameters).ConfigureAwait(false);
+        return await connection.QueryFirstOrDefaultAsync<UsersDto>(sql, parameters).ConfigureAwait(false);
     }
 
     public async Task<ResponseDto> SubmitUsersAsync(UsersDataModel userDto)
@@ -205,7 +206,7 @@ public class UsersRepository(IDatabaseConnectionService connectionService) : IUs
         return result.HasValue;
     }
 
-    public async Task<UsersDtoResponse?> GetUserByPhone(string phone)
+    public async Task<UsersDto> GetUserByPhone(string phone)
     {
         await using var connection = await connectionService.GetDatabaseConnectionAsync();
 
@@ -222,10 +223,10 @@ public class UsersRepository(IDatabaseConnectionService connectionService) : IUs
         var parameters = new DynamicParameters();
         parameters.Add("@PhoneNumber", phone, DbType.String);
 
-        return await connection.QueryFirstOrDefaultAsync<UsersDtoResponse>(query, parameters).ConfigureAwait(false);
+        return await connection.QueryFirstOrDefaultAsync<UsersDto>(query, parameters).ConfigureAwait(false);
     }
 
-    public async Task<UsersDtoResponse?> GetUserByEmail(string email)
+    public async Task<UsersDto> GetUserByEmail(string email)
     {
         await using var connection = await connectionService.GetDatabaseConnectionAsync();
 
@@ -243,7 +244,7 @@ public class UsersRepository(IDatabaseConnectionService connectionService) : IUs
         var parameters = new DynamicParameters();
         parameters.Add("@Email", email, DbType.String);
 
-        return await connection.QueryFirstOrDefaultAsync<UsersDtoResponse>(query, parameters).ConfigureAwait(false);
+        return await connection.QueryFirstOrDefaultAsync<UsersDto>(query, parameters).ConfigureAwait(false);
     }
 
     public async Task<UsersDataModel?> GetUserForLoginAsync(string email)

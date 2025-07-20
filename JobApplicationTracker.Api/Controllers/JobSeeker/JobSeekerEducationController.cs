@@ -10,7 +10,7 @@ namespace JobApplicationTracker.Api.Controllers.JobApplication
     [ApiController]
     [Route("api/[controller]")]
 
-    [Route("api/jobseekereducation")]
+   
     public class JobSeekerEducationController(IJobSeekersEducationRepository jobSeekersEducationRepository) : ControllerBase
     {
         [HttpGet]

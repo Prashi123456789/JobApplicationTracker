@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dto\Responses\CompanyProfileDto.cs" />
+    <Compile Remove="Dto\Responses\JobSeekersProfileDto.cs" />
+    <Compile Remove="Dto\Responses\UserProfileDto.cs" />
+    <Compile Remove="Dto\Responses\UsersDtoResponse.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
 	  <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.4" />

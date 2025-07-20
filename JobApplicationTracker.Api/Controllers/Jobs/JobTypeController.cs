@@ -11,7 +11,7 @@ namespace JobApplicationTracker.Api.Controllers.JobApplication
     [ApiController]
     [Route("api/[controller]")]
 
-    [Route("api/jobtypes")]
+    
     public class JobTypeController(IJobTypeRepository jobTypeService) : ControllerBase
     {
         [HttpGet]

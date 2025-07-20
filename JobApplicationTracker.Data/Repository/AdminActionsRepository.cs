@@ -1,22 +1,22 @@
-//
-// using Dapper;
-// using JobApplicationTracke.Data.Dto;
-// using JobApplicationTracke.Data.Interface;
-// using System.Data;
-//
-// namespace JobApplicationTracker.Data.Repository;
-//  
-// public class AdminActionService : IAdminActionRepository
-// {
-//     private readonly IDatabaseConnectionService _connectionService;
-//
-//     public AdminActionService(IDatabaseConnectionService connectionService)
-//     {
-//         _connectionService = connectionService;
-//     }
-//     public async Task<IEnumerable<AdminActionsDto>> GetAllAdminActionAsync()
-//     {
-//         await using var connection = await _connectionService.GetDatabaseConnectionAsync();
+/*using Dapper;
+using JobApplicationTracke.Data.Dto;
+using JobApplicationTracke.Data.Interface;
+using JobApplicationTracker.Data.Interface;
+using System.Data;
+
+namespace JobApplicationTracker.Data.Repository;
+ 
+public class AdminActionService : IAdminActionRepository
+{
+    private readonly IDatabaseConnectionService _connectionService;
+
+     public AdminActionService(IDatabaseConnectionService connectionService)
+    {
+         _connectionService = connectionService;
+     }
+     public async Task<IEnumerable<AdminActionsDto>> GetAllAdminActionAsync()
+     {
+     await using var connection = await _connectionService.GetDatabaseConnectionAsync();
 //
 //         var sql = """
 //               SELECT ActionId, 
@@ -131,3 +131,4 @@
 //         };
 //     }
 // }
+*/
