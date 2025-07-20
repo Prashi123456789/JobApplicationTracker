@@ -1,50 +1,57 @@
 using JobApplicationTracker.Data.DataModels;
 using JobApplicationTracker.Data.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobApplicationTracker.Api.Controllers.JobSeeker;
+namespace JobApplicationTracker.Api.Controllers.JobApplication
 
-[Route("api/jobseekereducation")]
-public class JobSeekerEducationController(IJobSeekersEducationRepository jobSeekersEducationRepository) : ControllerBase
 {
-    [HttpGet]
-    [Route("/getalljobseekereducation")]
-    public async Task<IActionResult> GetAllJobSeekersEducation()
-    {
-        var jobEduu = await jobSeekersEducationRepository.GetAllJobSeekerEducationAsync();
-        return Ok(jobEduu);
-    }
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
 
-    [HttpGet]
-    [Route("/getjobseekereducation")]
-    public async Task<IActionResult> GetJobSeekerEducationsById(int id)
+    [Route("api/jobseekereducation")]
+    public class JobSeekerEducationController(IJobSeekersEducationRepository jobSeekersEducationRepository) : ControllerBase
     {
-        var jobSeekerEdu= await jobSeekersEducationRepository.GetJobSeekerEducationByIdAsync(id);
-        if (jobSeekerEdu == null)
+        [HttpGet]
+        [Route("/getalljobseekereducation")]
+        public async Task<IActionResult> GetAllJobSeekersEducation()
         {
-            return NotFound();
-        }
-        return Ok(jobSeekerEdu);
-    }
-
-    [HttpPost]
-    [Route("/submitjobseekereducation")]
-    public async Task<IActionResult> SubmitJobSeekerEducation([FromBody] JobSeekerEducation jobSeekerEducationDto)
-    {
-        if (jobSeekerEducationDto == null)
-        {
-            return BadRequest();
+            var jobEduu = await jobSeekersEducationRepository.GetAllJobSeekerEducationAsync();
+            return Ok(jobEduu);
         }
 
-        var response = await jobSeekersEducationRepository.SubmitJobSeekerEducationAsync(jobSeekerEducationDto);
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
-    }
+        [HttpGet]
+        [Route("/getjobseekereducation")]
+        public async Task<IActionResult> GetJobSeekerEducationsById(int id)
+        {
+            var jobSeekerEdu = await jobSeekersEducationRepository.GetJobSeekerEducationByIdAsync(id);
+            if (jobSeekerEdu == null)
+            {
+                return NotFound();
+            }
+            return Ok(jobSeekerEdu);
+        }
 
-    [HttpDelete]
-    [Route("/deletejobseekereducation")]
-    public async Task<IActionResult> DeleteJobSeekerEducation(int id)
-    {
-        var response = await jobSeekersEducationRepository.DeleteJobSeekerEducationAsync(id);
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
+        [HttpPost]
+        [Route("/submitjobseekereducation")]
+        public async Task<IActionResult> SubmitJobSeekerEducation([FromBody] JobSeekerEducation jobSeekerEducationDto)
+        {
+            if (jobSeekerEducationDto == null)
+            {
+                return BadRequest();
+            }
+
+            var response = await jobSeekersEducationRepository.SubmitJobSeekerEducationAsync(jobSeekerEducationDto);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpDelete]
+        [Route("/deletejobseekereducation")]
+        public async Task<IActionResult> DeleteJobSeekerEducation(int id)
+        {
+            var response = await jobSeekersEducationRepository.DeleteJobSeekerEducationAsync(id);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace JobApplicationTracker.Data.Interface;
 
 public interface IUserRepository
 {
-    Task<IEnumerable<UsersDtoResponse>> GetAllUsersAsync();
+    Task<IEnumerable<UsersDtoResponse>> GetAllUsersAsync(int companyId);
     Task<UsersDtoResponse?> GetUserByEmail(string email);
     Task<UsersDtoResponse?> GetUsersByIdAsync(int userId);
     Task<ResponseDto> SubmitUsersAsync(UsersDataModel userDto);
@@ -17,4 +17,5 @@ public interface IUserRepository
     Task<bool> DoesEmailExists(string email);
     Task<UsersDtoResponse?> GetUserByPhone(string phone);
     Task<UsersDataModel?> GetUserForLoginAsync(string email);
+    Task<UserProfileDto> GetUserProfileAsync(int userId);
 }

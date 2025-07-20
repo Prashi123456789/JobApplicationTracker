@@ -1,50 +1,56 @@
 using JobApplicationTracker.Data.DataModels;
 using JobApplicationTracker.Data.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobApplicationTracker.Api.Controllers.Admin;
-
-[Route("api/AdminLogs")]
-public class AdminLogsController(IAdminLogsRepository adminLogRepository) : ControllerBase
+namespace JobApplicationTracker.Api.Controllers.Authentication
 {
-    [HttpGet]
-    [Route("/getallAdminLogs")]
-    public async Task<IActionResult> GetAllAdminLogs()
-    {
-        var adminLog = await adminLogRepository.GetAllAdminLogsAsync();
-        return Ok(adminLog);
-    }
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
 
-    [HttpGet]
-    [Route("/getadminLogsbyid")]
-    public async Task<IActionResult> GetAdminLogsById(int id)
+    [Route("api/AdminLogs")]
+    public class AdminLogsController(IAdminLogsRepository adminLogRepository) : ControllerBase
     {
-        var adminLog = await adminLogRepository.GetAdminLogsByIdAsync(id);
-        if (adminLog == null)
+        [HttpGet]
+        [Route("/getallAdminLogs")]
+        public async Task<IActionResult> GetAllAdminLogs()
         {
-            return NotFound();
-        }
-        return Ok(adminLog);
-    }
-
-    [HttpPost]
-    [Route("/submitAdminLogs")]
-    public async Task<IActionResult> SubmitAdminLogs([FromBody] AdminLogsDataModel adminLogsDto)
-    {
-        if (adminLogsDto == null)
-        {
-            return BadRequest();
+            var adminLog = await adminLogRepository.GetAllAdminLogsAsync();
+            return Ok(adminLog);
         }
 
-        var response = await adminLogRepository.SubmitAdminLogsAsync(adminLogsDto);
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
-    }
+        [HttpGet]
+        [Route("/getadminLogsbyid")]
+        public async Task<IActionResult> GetAdminLogsById(int id)
+        {
+            var adminLog = await adminLogRepository.GetAdminLogsByIdAsync(id);
+            if (adminLog == null)
+            {
+                return NotFound();
+            }
+            return Ok(adminLog);
+        }
 
-    [HttpDelete]
-    [Route("/deleteAdminLog")]
-    public async Task<IActionResult> DeleteAdminLog(int id)
-    {
-        var response = await adminLogRepository.DeleteAdminLogsAsync(id);
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
+        [HttpPost]
+        [Route("/submitAdminLogs")]
+        public async Task<IActionResult> SubmitAdminLogs([FromBody] AdminLogsDataModel adminLogsDto)
+        {
+            if (adminLogsDto == null)
+            {
+                return BadRequest();
+            }
+
+            var response = await adminLogRepository.SubmitAdminLogsAsync(adminLogsDto);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpDelete]
+        [Route("/deleteAdminLog")]
+        public async Task<IActionResult> DeleteAdminLog(int id)
+        {
+            var response = await adminLogRepository.DeleteAdminLogsAsync(id);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
+        }
     }
 }

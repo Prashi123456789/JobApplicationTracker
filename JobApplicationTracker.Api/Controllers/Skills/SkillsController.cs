@@ -1,50 +1,57 @@
 using JobApplicationTracker.Data.DataModels;
 using JobApplicationTracker.Data.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobApplicationTracker.Api.Controllers.Skills;
+namespace JobApplicationTracker.Api.Controllers.JobApplication
 
-[Route("api/skills")]
-public class SkillsController(ISkillsRepository skillService) : ControllerBase
 {
-    [HttpGet]
-    [Route("/getallskills")]
-    public async Task<IActionResult> GetAllSkills()
-    {
-        var skills = await skillService.GetAllSkillsAsync();
-        return Ok(skills);
-    }
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
 
-    [HttpGet]
-    [Route("/getskillbyid")]
-    public async Task<IActionResult> GetSkillsById(int id)
+    [Route("api/skills")]
+    public class SkillsController(ISkillsRepository skillService) : ControllerBase
     {
-        var skills = await skillService.GetSkillsByIdAsync(id);
-        if (skills == null)
+        [HttpGet]
+        [Route("/getallskills")]
+        public async Task<IActionResult> GetAllSkills()
         {
-            return NotFound();
-        }
-        return Ok(skills);
-    }
-
-    [HttpPost]
-    [Route("/submitskills")]
-    public async Task<IActionResult> SubmitSkills([FromBody] SkillsDataModel skillsDto)
-    {
-        if (skillsDto == null)
-        {
-            return BadRequest();
+            var skills = await skillService.GetAllSkillsAsync();
+            return Ok(skills);
         }
 
-        var response = await skillService.SubmitSkillsAsync(skillsDto);
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
-    }
+        [HttpGet]
+        [Route("/getskillbyid")]
+        public async Task<IActionResult> GetSkillsById(int id)
+        {
+            var skills = await skillService.GetSkillsByIdAsync(id);
+            if (skills == null)
+            {
+                return NotFound();
+            }
+            return Ok(skills);
+        }
 
-    [HttpDelete]
-    [Route("/deleteskills")]
-    public async Task<IActionResult> DeleteSkills(int id)
-    {
-        var response = await skillService.DeleteSkillsAsync(id);
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
+        [HttpPost]
+        [Route("/submitskills")]
+        public async Task<IActionResult> SubmitSkills([FromBody] SkillsDataModel skillsDto)
+        {
+            if (skillsDto == null)
+            {
+                return BadRequest();
+            }
+
+            var response = await skillService.SubmitSkillsAsync(skillsDto);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpDelete]
+        [Route("/deleteskills")]
+        public async Task<IActionResult> DeleteSkills(int id)
+        {
+            var response = await skillService.DeleteSkillsAsync(id);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
+        }
     }
 }

@@ -3,59 +3,66 @@ using JobApplicationTracker.Data.DataModels;
 using JobApplicationTracker.Data.Interface;
 using JobApplicationTracker.Service.DTO.Requests;
 using JobApplicationTracker.Service.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobApplicationTracker.Api.Controllers.JobSeeker;
+namespace JobApplicationTracker.Api.Controllers.JobApplication
 
-[Route("api/jobSeekers")]
-public class 
-    JobsSeekersController(IJobSeekersRepository jobSeekerService, 
-        IRegistrationService registrationService) : ControllerBase
 {
-    [HttpGet]
-    [Route("/getalljobSeekers")]
-    public async Task<IActionResult> GetAllJobSeekers()
-    {
-        var jobSeeker = await jobSeekerService.GetAllJobSeekersAsync();
-        return Ok(jobSeeker);
-    }
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
 
-    [HttpGet]
-    [Route("/getjobSeekerbyid")]
-    public async Task<IActionResult> GetJobSeekerById(int id)
+    [Route("api/jobSeekers")]
+    public class
+    JobsSeekersController(IJobSeekersRepository jobSeekerService,
+        IRegistrationService registrationService) : ControllerBase
     {
-        var jobSeekerr = await jobSeekerService.GetJobSeekersByIdAsync(id);
-        if (jobSeekerr == null)
+        [HttpGet]
+        [Route("/getalljobSeekers")]
+        public async Task<IActionResult> GetAllJobSeekers()
         {
-            return NotFound();
-        }
-        return Ok(jobSeekerr);
-    }
-
-    [HttpPost]
-    [Route("/submitjobSeeker")]
-    public async Task<IActionResult> SubmitJobSeeker([FromBody] JobSeekersDataModel jobSeekersDto)
-    {
-        if (!ModelState.IsValid)
-        {
-            // ModelState.AddModelError("","");
-            // throw new ValidationException("Please enter all the required fields");
-            return BadRequest(ModelState);
-        }
-        if (jobSeekersDto == null)
-        {
-            return BadRequest("Request body cannot be empty.");
+            var jobSeeker = await jobSeekerService.GetAllJobSeekersAsync();
+            return Ok(jobSeeker);
         }
 
-        var response = await jobSeekerService.SubmitJobSeekersAsync(jobSeekersDto);
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
-    }
+        [HttpGet]
+        [Route("/getjobSeekerbyid")]
+        public async Task<IActionResult> GetJobSeekerById(int id)
+        {
+            var jobSeekerr = await jobSeekerService.GetJobSeekersByIdAsync(id);
+            if (jobSeekerr == null)
+            {
+                return NotFound();
+            }
+            return Ok(jobSeekerr);
+        }
 
-    [HttpDelete]
-    [Route("/deletejobseeker")]
-    public async Task<IActionResult> DeleteJobSeeker(int id)
-    {
-        var response = await jobSeekerService.DeleteJobSeekersAsync(id);
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
+        [HttpPost]
+        [Route("/submitjobSeeker")]
+        public async Task<IActionResult> SubmitJobSeeker([FromBody] JobSeekersDataModel jobSeekersDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                // ModelState.AddModelError("","");
+                // throw new ValidationException("Please enter all the required fields");
+                return BadRequest(ModelState);
+            }
+            if (jobSeekersDto == null)
+            {
+                return BadRequest("Request body cannot be empty.");
+            }
+
+            var response = await jobSeekerService.SubmitJobSeekersAsync(jobSeekersDto);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpDelete]
+        [Route("/deletejobseeker")]
+        public async Task<IActionResult> DeleteJobSeeker(int id)
+        {
+            var response = await jobSeekerService.DeleteJobSeekersAsync(id);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
+        }
     }
 }

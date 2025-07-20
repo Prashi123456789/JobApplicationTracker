@@ -4,43 +4,49 @@ using JobApplicationTracker.Data.Dtos.Responses;
 using JobApplicationTracker.Data.Interface;
 using JobApplicationTracker.Service.DTO.Requests;
 using JobApplicationTracker.Service.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobApplicationTracker.Api.Controllers.Company;
 
-[Route("api/companyies")]
-public class CompaniesController(ICompaniesRepository companyService, IRegistrationService registrationService) : ControllerBase
+namespace JobApplicationTracker.Api.Controllers.Authentication
 {
-    
-    [HttpGet]
-    [Route("/getallcompanies")]
-    public async Task<IActionResult> GetAllCompanies()
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
+    [Route("api/companies")]
+    public class CompaniesController(ICompaniesRepository companyService, IRegistrationService registrationService) : ControllerBase
     {
-        var company = await companyService.GetAllCompaniesAsync();
-        return Ok(company);
-    }
 
-    [HttpGet]
-    [Route("/getcompanybyid")]
-    public async Task<IActionResult> GetCompanyById(int id)
-    {
-        var company = await companyService.GetCompaniesByIdAsync(id);
-        if (company == null)
+        [HttpGet]
+        [Route("/getallcompanies")]
+        public async Task<IActionResult> GetAllCompanies()
         {
-            return NotFound();
+            var company = await companyService.GetAllCompaniesAsync();
+            return Ok(company);
         }
-        return Ok(company);
-    }
-    
-    [HttpDelete]
-    [Route("/deletecompany")]
-    public async Task<IActionResult> DeleteCompany(int id)
-    {
-        var response = await companyService.DeleteCompanyAsync(id);
-        if (response is ResponseDto responseDto) // Ensure the response is cast to the correct type
+
+        [HttpGet]
+        [Route("/getcompanybyid")]
+        public async Task<IActionResult> GetCompanyById(int id)
         {
-            return responseDto.IsSuccess ? Ok(responseDto) : BadRequest(responseDto);
+            var company = await companyService.GetCompaniesByIdAsync(id);
+            if (company == null)
+            {
+                return NotFound();
+            }
+            return Ok(company);
         }
-        return BadRequest("Invalid response type.");
+
+        [HttpDelete]
+        [Route("/deletecompany")]
+        public async Task<IActionResult> DeleteCompany(int id)
+        {
+            var response = await companyService.DeleteCompanyAsync(id);
+            if (response is ResponseDto responseDto) // Ensure the response is cast to the correct type
+            {
+                return responseDto.IsSuccess ? Ok(responseDto) : BadRequest(responseDto);
+            }
+            return BadRequest("Invalid response type.");
+        }
     }
 }

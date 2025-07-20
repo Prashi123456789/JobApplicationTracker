@@ -1,51 +1,58 @@
 
 using JobApplicationTracker.Data.DataModels;
 using JobApplicationTracker.Data.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobApplicationTracker.Api.Controllers.Jobs;
+namespace JobApplicationTracker.Api.Controllers.JobApplication
 
-[Route("api/jobtypes")]
-public class JobTypeController(IJobTypeRepository jobTypeService) : ControllerBase
 {
-    [HttpGet]
-    [Route("/getalljobtypes")]
-    public async Task<IActionResult> GetAllJobTypes()
-    {
-        var jobTypes = await jobTypeService.GetAllJobTypesAsync();
-        return Ok(jobTypes);
-    }
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
 
-    [HttpGet]
-    [Route("/getjobtypebyid")]
-    public async Task<IActionResult> GetJobTypeById(int id)
+    [Route("api/jobtypes")]
+    public class JobTypeController(IJobTypeRepository jobTypeService) : ControllerBase
     {
-        var jobType = await jobTypeService.GetJobTypeByIdAsync(id);
-        if (jobType == null)
+        [HttpGet]
+        [Route("/getalljobtypes")]
+        public async Task<IActionResult> GetAllJobTypes()
         {
-            return NotFound();
-        }
-        return Ok(jobType);
-    }
-
-    [HttpPost]
-    [Route("/submitjobtype")]
-    public async Task<IActionResult> SubmitJobType([FromBody] JobTypesDataModel jobTypeDto)
-    {
-        if (jobTypeDto == null)
-        {
-            return BadRequest();
+            var jobTypes = await jobTypeService.GetAllJobTypesAsync();
+            return Ok(jobTypes);
         }
 
-        var response = await jobTypeService.SubmitJobTypeAsync(jobTypeDto);
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
-    }
+        [HttpGet]
+        [Route("/getjobtypebyid")]
+        public async Task<IActionResult> GetJobTypeById(int id)
+        {
+            var jobType = await jobTypeService.GetJobTypeByIdAsync(id);
+            if (jobType == null)
+            {
+                return NotFound();
+            }
+            return Ok(jobType);
+        }
 
-    [HttpDelete]
-    [Route("/deletejobtype")]
-    public async Task<IActionResult> DeleteJobType(int id)
-    {
-        var response = await jobTypeService.DeleteJobTypeAsync(id);
-        return response.IsSuccess ? Ok(response) : BadRequest(response);
+        [HttpPost]
+        [Route("/submitjobtype")]
+        public async Task<IActionResult> SubmitJobType([FromBody] JobTypesDataModel jobTypeDto)
+        {
+            if (jobTypeDto == null)
+            {
+                return BadRequest();
+            }
+
+            var response = await jobTypeService.SubmitJobTypeAsync(jobTypeDto);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpDelete]
+        [Route("/deletejobtype")]
+        public async Task<IActionResult> DeleteJobType(int id)
+        {
+            var response = await jobTypeService.DeleteJobTypeAsync(id);
+            return response.IsSuccess ? Ok(response) : BadRequest(response);
+        }
     }
 }
