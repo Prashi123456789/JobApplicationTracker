@@ -8,6 +8,8 @@ namespace JobApplicationTracker.Data.Dto.Responses
 {
     public class UserProfileDto
     {
+        public object ProfileImageUrl;
+
         public int UserId { get; set; }
         public string Email { get; set; } = null!;
         public int UserType { get; set; }
@@ -16,6 +18,7 @@ namespace JobApplicationTracker.Data.Dto.Responses
 
         public CompanyProfileDto? CompanyProfile { get; set; }
         public JobSeekersProfileDto? JobSeekerProfile { get; set; }
+        public object Bio { get; set; }
     }
 
 }

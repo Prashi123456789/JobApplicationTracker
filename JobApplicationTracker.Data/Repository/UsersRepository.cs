@@ -257,4 +257,9 @@ public class UsersRepository(IDatabaseConnectionService connectionService) : IUs
 
         return await connection.QueryFirstOrDefaultAsync<UsersDataModel>(query, parameters).ConfigureAwait(false);
     }
+
+    public Task<UserProfileDto> GetUploadedProfileByIdAsync(int UserId)
+    {
+        throw new NotImplementedException();
+    }
 }

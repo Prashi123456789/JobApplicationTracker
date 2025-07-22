@@ -18,4 +18,5 @@ public interface IUserRepository
     Task<UsersDto> GetUserByPhone(string phone);
     Task<UsersDataModel?> GetUserForLoginAsync(string email);
     Task<UserProfileDto> GetUserProfileAsync(int userId);
+    Task<UserProfileDto> GetUploadedProfileByIdAsync(int UserId);
 }

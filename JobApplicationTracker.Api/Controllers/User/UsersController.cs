@@ -1,5 +1,7 @@
 using JobApplicationTracker.Data.DataModels;
+using JobApplicationTracker.Data.Dto;
 using JobApplicationTracker.Data.Dto.Responses;
+using JobApplicationTracker.Data.Dtos.Responses;
 using JobApplicationTracker.Data.Interface;
 using JobApplicationTracker.Service.DTO.Requests;
 using JobApplicationTracker.Service.Services.Interfaces;
@@ -10,12 +12,13 @@ namespace JobApplicationTracker.Api.Controllers.User;
 
 [Authorize]
 [ApiController]
-[Route("/users")]
+[Route("/")]
 public class UsersController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasherService _passwordHasher;
     private readonly IRegistrationService _registrationService;
+    private object _userService;
 
     // Proper constructor for dependency injection
     public UsersController(
@@ -77,7 +80,7 @@ public class UsersController : ControllerBase
         return response.IsSuccess ? Ok(response) : BadRequest(response);
     }
 
-    [HttpGet("profile/{userId}")]
+    [HttpGet("getProfileById")]
     public async Task<ActionResult<UserProfileDto>> GetUserProfile(int userId)
     {
         var profile = await _userRepository.GetUserProfileAsync(userId);
@@ -87,4 +90,45 @@ public class UsersController : ControllerBase
 
         return Ok(profile);
     }
+    [HttpPost]
+    [Route("/uploadProfilePicture")]
+    public async Task<IActionResult> UploadProfilePicture(UploadProfileDto uploadProfileDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        // Logic to handle profile image upload and bio update goes here.
+
+        return Ok(new ResponseDto
+        {
+            IsSuccess = true,
+            Message = "Profile updated successfully."
+        });
+    }
+    [HttpGet]
+    [Route("/getuserUploadedprofileByid/{id}")]
+    public async Task<IActionResult> GetUploadedProfile(int id)
+    {
+        // Retrieve user profile by ID
+        var userProfile = await _userRepository.GetUploadedProfileByIdAsync(id);
+
+        if (userProfile == null)
+        {
+            return NotFound(new ResponseDto
+            {
+                IsSuccess = false,
+                Message = "User not found."
+            });
+        }
+
+        return Ok(new
+        {
+            userProfile.UserId,
+            userProfile.ProfileImageUrl, // URL or path to the profile image
+            userProfile.Bio
+        });
+    }
 }
+
