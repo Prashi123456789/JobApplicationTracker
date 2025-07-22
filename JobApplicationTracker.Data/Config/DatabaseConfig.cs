@@ -2,6 +2,6 @@
 {
     public class DatabaseConfig
     {
-        public string ConnectionString { get; set; } = null!;
+        public string ConnectionString { get; set; }
     }
 }

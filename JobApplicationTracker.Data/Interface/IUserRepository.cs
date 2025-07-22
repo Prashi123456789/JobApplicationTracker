@@ -1,6 +1,7 @@
 
 using JobApplicationTracker.Data.DataModels;
 using JobApplicationTracker.Data.Dto;
+using JobApplicationTracker.Data.Dto.Responses;
 using JobApplicationTracker.Data.Dtos.Responses;
 
 namespace JobApplicationTracker.Data.Interface;
@@ -16,5 +17,5 @@ public interface IUserRepository
     Task<bool> DoesEmailExists(string email);
     Task<UsersDto> GetUserByPhone(string phone);
     Task<UsersDataModel?> GetUserForLoginAsync(string email);
-   
+    Task<UserProfileDto> GetUserProfileAsync(int userId);
 }

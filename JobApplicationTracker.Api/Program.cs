@@ -1,9 +1,11 @@
+using JobApplicationTracke.Data.Database;
 using JobApplicationTracker.Api.GlobalExceptionHandler;
+using JobApplicationTracker.Data.Config;
+using JobApplicationTracker.Data.Interface;
 using JobApplicationTracker.Service;
 using JobApplicationTracker.Service.Configuration;
 using JobApplicationTracker.Service.Services.Interfaces;
 using JobApplicationTracker.Service.Services.Service;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -23,7 +25,11 @@ builder.Services.AddControllers(config =>
 builder.Services.AddScoped<GlobalExceptionHandler>();
 
 // Configure JWT settings
-builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("jwtSettings"));
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+
+// Configure Database settings
+builder.Services.Configure<DatabaseConfig>(builder.Configuration.GetSection("ConnectionStrings")); // Add this line
+builder.Services.AddScoped<IDatabaseConnectionService, DatabaseConnectionService>(); // Add this line
 
 // Add Swagger for API documentation
 builder.Services.AddEndpointsApiExplorer();
@@ -52,30 +58,30 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer"
                 }
             },
-            new string[] {}
+            new string[] { }
         }
     });
 });
 
 // CORS policy for all origins
 builder.Services.AddCors(options =>
-    options.AddPolicy("AllowAllOrigins",
-        builder => builder.WithOrigins("http://localhost:5173")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials())
-);
+{
+    options.AddPolicy("AllowAllOrigins", builder =>
+        builder.WithOrigins("http://localhost:5173")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials());
+});
 
 // Authentication service configuration
 builder.Services.AddAuthentication(options =>
 {
-    // Default authentication scheme
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; // Change to JwtBearer
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; // Change to JwtBearer
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
-    var jwtSettings = builder.Configuration.GetSection("jwtSettings").Get<JwtSettings>();
+    var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -120,7 +126,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Jobs Applications Tracker API V1");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "JobApplicationTracker API V1");
         options.RoutePrefix = string.Empty; // This makes Swagger UI the root
     });
 }
@@ -132,4 +138,5 @@ app.UseAuthorization(); // Ensure to add this for authorization
 
 app.MapControllers(); // Map controller routes
 
-app.Run(); // Run the application
+// Run the application
+app.Run();

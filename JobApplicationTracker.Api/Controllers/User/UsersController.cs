@@ -10,7 +10,7 @@ namespace JobApplicationTracker.Api.Controllers.User;
 
 [Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[Route("/users")]
 public class UsersController : ControllerBase
 {
     private readonly IUserRepository _userRepository;

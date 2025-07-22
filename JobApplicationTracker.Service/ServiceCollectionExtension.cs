@@ -2,8 +2,6 @@
 using JobApplicationTracker.Data.Config;
 using JobApplicationTracker.Data.Interface;
 using JobApplicationTracker.Data.Repository;
-using JobApplicationTracker.Service.Services.Interfaces;
-using JobApplicationTracker.Service.Services.Service;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
