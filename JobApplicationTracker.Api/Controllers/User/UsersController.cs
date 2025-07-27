@@ -80,7 +80,7 @@ public class UsersController : ControllerBase
         return response.IsSuccess ? Ok(response) : BadRequest(response);
     }
 
-    [HttpGet("getProfileById")]
+    [HttpGet("Profile")]
     public async Task<ActionResult<UserProfileDto>> GetUserProfile(int userId)
     {
         var profile = await _userRepository.GetUserProfileAsync(userId);
