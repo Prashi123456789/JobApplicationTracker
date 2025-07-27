@@ -1,4 +1,4 @@
-using JobApplicationTracker.Data.DataModels;
+﻿using JobApplicationTracker.Data.DataModels;
 
 namespace JobApplicationTracker.Service.DTO.Requests;
 
@@ -13,7 +13,7 @@ public class RegisterDto
     public int? CompanyId { get; set; }
     public CompaniesDataModel? CompanyDto { get; set; }
     public DateTime? CreateDateTime { get; set; }
-    
+
     public RegisterDto()
     {
         CreateDateTime = DateTime.Now;

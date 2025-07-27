@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobApplicationTracker.Api.Controllers.User;
 
-[Authorize]
+
 [ApiController]
 [Route("/")]
 public class UsersController : ControllerBase
