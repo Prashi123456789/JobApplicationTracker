@@ -15,7 +15,7 @@ public class ValidationException : Exception
         Errors.AddRange(errors);
     }
 
-    public ValidationException(string message, IEnumerable<string> errors) : base(message) 
+    public ValidationException(string message, IEnumerable<string> errors) : base(message)
     {
         Errors.AddRange(errors);
     }
