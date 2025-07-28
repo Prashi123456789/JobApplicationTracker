@@ -112,7 +112,7 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetUploadedProfile(int id)
     {
         // Retrieve user profile by ID
-        var userProfile = await _userRepository.GetUploadedProfileByIdAsync(id);
+        var userProfile = await _userRepository.UploadedProfileByIdAsync(id);
 
         if (userProfile == null)
         {

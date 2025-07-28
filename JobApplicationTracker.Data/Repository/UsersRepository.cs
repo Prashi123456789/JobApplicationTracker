@@ -258,8 +258,14 @@ public class UsersRepository(IDatabaseConnectionService connectionService) : IUs
         return await connection.QueryFirstOrDefaultAsync<UsersDataModel>(query, parameters).ConfigureAwait(false);
     }
 
-    public Task<UserProfileDto> GetUploadedProfileByIdAsync(int UserId)
+    public async Task<UserProfileDto?> UploadedProfileByIdAsync(int userId)
     {
-        throw new NotImplementedException();
+        await using var connection = await connectionService.GetDatabaseConnectionAsync();
+
+        var query = "SELECT UserId, ProfilePicture, Bio, SocialLinks FROM UserProfiles WHERE UserId = @UserId";
+        var parameters = new DynamicParameters();
+        parameters.Add("@UserId", userId, DbType.Int32);
+
+        return await connection.QueryFirstOrDefaultAsync<UserProfileDto>(query, parameters).ConfigureAwait(false);
     }
 }

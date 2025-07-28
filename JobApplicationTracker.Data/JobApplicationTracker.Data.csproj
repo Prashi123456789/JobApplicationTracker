@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dto\NewFolder\**" />
+    <EmbeddedResource Remove="Dto\NewFolder\**" />
+    <None Remove="Dto\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Dto\Responses\CompanyProfileDto.cs" />
     <Compile Remove="Dto\Responses\JobSeekersProfileDto.cs" />
     <Compile Remove="Dto\Responses\UserProfileDto.cs" />

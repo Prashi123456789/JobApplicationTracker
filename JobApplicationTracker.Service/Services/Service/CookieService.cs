@@ -3,32 +3,33 @@ using JobApplicationTracker.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace JobApplicationTracker.Service.Services.Service;
-
-public class CookieService : ICookieService
+namespace JobApplicationTracker.Service.Services.Service
 {
-    private readonly JwtSettings _jwtSettings;
-
-    public CookieService(IOptions<JwtSettings> jwtSettings)
+    public class CookieService : ICookieService
     {
-        _jwtSettings = jwtSettings.Value;
-    }
-    public void AppendCookies(HttpResponse response, string authToken)
-    {
-        CookieOptions options = BuildCookies();
-        response.Cookies.Append("authToken",authToken);
-    }
+        private readonly JwtSettings _jwtSettings;
 
-
-    private CookieOptions BuildCookies()
-    {
-        return new CookieOptions()
+        public CookieService(IOptions<JwtSettings> jwtSettings)
         {
-            HttpOnly = false,
-            SameSite = SameSiteMode.None,
-            Secure = true,
-            IsEssential = true,
-            Expires = DateTime.UtcNow.AddMinutes(Convert.ToInt32(_jwtSettings.ExpireMinutes))
-        };
+            _jwtSettings = jwtSettings.Value;
+        }
+
+        public void AppendCookies(HttpResponse response, string authToken)
+        {
+            CookieOptions options = BuildCookies();
+            response.Cookies.Append("authToken", authToken, options); // Use the options parameter
+        }
+
+        private CookieOptions BuildCookies()
+        {
+            return new CookieOptions()
+            {
+                HttpOnly = true, // Set to true for security
+                SameSite = SameSiteMode.None,
+                Secure = true,
+                IsEssential = true,
+                Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpireMinutes) // Use the integer directly
+            };
+        }
     }
 }
