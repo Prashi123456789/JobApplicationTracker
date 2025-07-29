@@ -18,4 +18,8 @@
     <ProjectReference Include="..\JobApplicationTracker.Service\JobApplicationTracker.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\Profiles\" />
+  </ItemGroup>
+
 </Project>

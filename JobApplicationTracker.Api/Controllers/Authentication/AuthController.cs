@@ -15,7 +15,7 @@ namespace JobApplicationTracker.Api.Controllers.Authentication
         private readonly ICookieService _cookieService;
         private readonly IAuthenticationService _authenticationService;
 
-        public AuthController(IUserRepository usersService, ICookieService cookieService, 
+        public AuthController(IUserRepository usersService, ICookieService cookieService,
             IAuthenticationService authenticationService)
         {
             _usersService = usersService;

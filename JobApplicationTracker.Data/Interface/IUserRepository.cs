@@ -1,6 +1,5 @@
-
 using JobApplicationTracker.Data.DataModels;
-using JobApplicationTracker.Data.Dto;
+using JobApplicationTracker.Data.Dto.AuthDto;
 using JobApplicationTracker.Data.Dto.Responses;
 using JobApplicationTracker.Data.Dtos.Responses;
 
@@ -8,15 +7,19 @@ namespace JobApplicationTracker.Data.Interface;
 
 public interface IUserRepository
 {
-    Task<IEnumerable<UsersDto>> GetAllUsersAsync(int companyId);
-    Task<UsersDto> GetUserByEmail(string email);
-    Task<UsersDto> GetUsersByIdAsync(int userId);
+    Task<IEnumerable<UsersDtoResponse>> GetAllUsersAsync(int companyId);
+    Task<UsersDtoResponse?> GetUserByEmail(string email);
+    Task<UsersDtoResponse?> GetUsersByIdAsync(int userId);
     Task<ResponseDto> SubmitUsersAsync(UsersDataModel userDto);
-    Task<int> CreateUserAsync(UsersDataModel userDto);
     Task<ResponseDto> DeleteUsersAsync(int userId);
     Task<bool> DoesEmailExists(string email);
-    Task<UsersDto> GetUserByPhone(string phone);
+    Task<UsersDtoResponse?> GetUserByPhone(string phone);
     Task<UsersDataModel?> GetUserForLoginAsync(string email);
     Task<UserProfileDto> GetUserProfileAsync(int userId);
-    Task<UserProfileDto> UploadedProfileByIdAsync(int UserId);
+    Task<ResponseDto> UploadUserProfilePictureAsync(int userId, string? imageUrl, string? bio);
+
+    Task<UserProfileDto?> GetUploadedProfileByIdAsync(int id);
+    Task<int> CreateUserAsync(UsersDataModel newUser);
+    Task UpdateUserProfilePictureAsync(int userId, string? imageUrl, string bio);
+    Task UploadedProfileByIdAsync(int id);
 }
